@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
 	
 	{% block css %}{% endblock %}
+	{% block js_head %}{% endblock %}
 
 </head>
 
@@ -75,6 +76,8 @@
 
     </div> <!-- /container -->
 
+	{% block js_body %}{% endblock %}
+	
 {% endblock %}
 
 </body>

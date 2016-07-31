@@ -1,6 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, make_response, render_template, request
+from verses.functions import get_verse_from_ourmanna
+from whitenoise import WhiteNoise
+
 import httplib2
 import json
+import os
 
 app = Flask(__name__)
 
@@ -12,29 +16,33 @@ def main():
 @app.route('/daily-bible-verse')
 def daily_bible_verse():
     
-    http = httplib2.Http()
-    url = "http://www.ourmanna.com/verses/api/get/?format=json"
+    random = True if request.args.get('order', None) == "random" else False
+      
+    (response, content) = get_verse_from_ourmanna(random)
     
-    if request.args.get('random', None) is not None:
-        url += "&order=random"
-
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0',
-               'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
+    response = None
     
-    print("getting a new verse in ourmanna.com")
+    if request.args.get('format', None) == "json":
+            
+        response = make_response(content)
+        response.headers["Content-Type"]= "application/json"
+        
+    else:
+        
+        json_data = json.loads(content)
+        
+        verse_text = json_data['verse']['details']['text']
+        verse_reference = json_data['verse']['details']['reference']
+        
+        return render_template('daily_bible_verse.html', verse=verse_text, reference=verse_reference)
     
-    (response, content) = http.request(url, method="GET", headers=headers)
-    
-    print("prossesing the verse")
-    
-    json_data = json.loads(content)
-    
-    verse_text = json_data['verse']['details']['text']
-    verse_reference = json_data['verse']['details']['reference']
-    
-    return render_template('daily_bible_verse.html', verse=verse_text, reference=verse_reference)
+    return response
     
 if __name__ == '__main__':
+
+    STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+    whitenoise_wrapper = WhiteNoise(app, root=STATIC_DIR, prefix='/static')
+
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)

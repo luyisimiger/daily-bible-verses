@@ -4,9 +4,74 @@
 <div class="row">
 	<div class="col-md-12">
 		<blockquote>
-			<p>{{ verse|e }}</p>
-			<footer>Holy Bilbe in <cite title="{{ reference }}">{{ reference }}</cite></footer>
+			<p id="verse">{{ verse|e }}</p>
+			<footer>Holy Bilbe in <cite id="cite" title="{{ reference }}">{{ reference }}</cite></footer>
 		</blockquote>
+		<div id="updated" class="well well-sm"></div>
 	</div>
 </div>
 {% endblock %}
+
+{% block js_body %}
+	
+	<script src="{{ url_for('static', filename='js/lib/fetch.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/lib/moment.min.js') }}"></script>
+	
+	<script>
+		
+		var p = document.querySelector("#verse");
+		var cite = document.querySelector("#cite");
+		var span = document.querySelector("#updated");
+		
+		var timeout = 1 * 1000;
+		var timeout_server = 30 * 60 * 1000;
+		var _moment;
+		var _interval = 0;
+		
+		function update_verse (event) {
+			
+			console.log("update_verse")
+			
+			var json_data = event.data;
+			
+			p.innerHTML = json_data.verse.details.text
+			
+			cite.innerHTML = json_data.verse.details.reference
+			cite.setAttribute("title", json_data.verse.details.reference);
+			
+			_moment = moment().add(timeout_server, 'ms');
+			
+			window.clearInterval(_interval)
+			_interval = window.setInterval(update_moment, timeout);
+						
+		};
+		
+		function update_moment () {
+			
+			span.innerHTML = "Next update: " + _moment.fromNow()
+			
+		};
+		
+		if (window.Worker) {
+		
+			var url_worker = "{{ url_for('static', filename='js/webworkers/fetch_random_verse_worker.js') }}"
+			
+			var options = {
+				timeout: timeout_server,
+				url_get_verse: "{{ url_for('daily_bible_verse') }}?order=random&format=json"
+			};
+			
+			var worker = new Worker(url_worker)
+			
+			worker.onmessage = function (event) {
+				update_verse (event)
+			};
+			
+			worker.postMessage({cmd: "start", options: options});
+		
+		}
+		
+	</script>
+	
+{% endblock %}
+
