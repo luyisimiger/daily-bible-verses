@@ -1,8 +1,10 @@
 from flask import Flask, make_response, render_template, request
 from verses.functions import get_verse_from_ourmanna
+from whitenoise import WhiteNoise
 
 import httplib2
 import json
+import os
 
 app = Flask(__name__)
 
@@ -37,6 +39,10 @@ def daily_bible_verse():
     return response
     
 if __name__ == '__main__':
+
+    STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+    whitenoise_wrapper = WhiteNoise(app, root=STATIC_DIR, prefix='/static')
+
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
