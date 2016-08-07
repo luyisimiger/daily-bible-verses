@@ -2,6 +2,7 @@ importScripts('/static/js/lib/fetch.js')
 
 var url_get_verse = ""
 var timeout = 5 * 60 * 1000;
+var _id;
 
 self.onmessage = function (event) {
 		
@@ -9,10 +10,13 @@ self.onmessage = function (event) {
 		
 		case "start":
 			update_settings(event.data.options);
-			fetch_verse_from_server();
+			schedule_next_fetch();
 		
 		case "update":
 			update_settings(event.data.options);
+		
+		case "refresh_verse":
+			fetch_verse_from_server();
 	}
 	
 };
@@ -28,7 +32,9 @@ function update_settings(options) {
 };
 
 function fetch_verse_from_server() {
-				
+	
+	clearTimeout(_id);
+	
 	fetch(url_get_verse).then(fetch_success, fetch_error);
 	
 };
@@ -43,12 +49,16 @@ function fetch_success(response) {
 		
 	});
 	
-	setTimeout(fetch_verse_from_server, timeout);
+	schedule_next_fetch();
 	
 };
 
+// handle network error
 function fetch_error(error) {
-	setTimeout(fetch_verse_from_server, timeout);
-	// handle network error
+	schedule_next_fetch();
+};
+
+function schedule_next_fetch() {
+	_id = setTimeout(fetch_verse_from_server, timeout);
 };
 
