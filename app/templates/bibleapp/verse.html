@@ -1,0 +1,26 @@
+{% extends "bibleapp/base.html" %}
+
+{% block content %}
+<section class="section">
+	<div class="container">
+
+		<nav class="breadcrumb" aria-label="breadcrumbs">
+			<ul>
+				<li><a href="#">Bible</a></li>
+				<li><a href="{{ url_for('book_view', id=verse.chapter.book.id) }}">{{ verse.chapter.book.name }}</a></li>
+				<li><a href="{{ url_for('chapter_view', id=verse.chapter.id) }}">Chapter {{ verse.chapter.chapter }}</a></li>
+				<li class="is-active"><a href="#" aria-current="page">{{ verse.verse }}</a></li>
+			</ul>
+		</nav>
+
+		<div class="card">
+			<div class="card-header">
+				<p class="card-header-title is-size-1 has-text-centered">{{ verse.chapter.book.name }} {{ verse.chapter.chapter }}: {{ verse.verse }} </p>
+			</div>
+			<div class="card-content">
+				<p class="is-size-3"> <i>{{ verse.text|string }}</i></p>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

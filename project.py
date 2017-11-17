@@ -1,16 +1,18 @@
 from flask import Flask, make_response, render_template, request
 from verses.functions import get_verse_from_ourmanna
+
 from whitenoise import WhiteNoise
 
 import httplib2
 import json
 import os
+import sys
+
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 app = Flask(__name__)
-
-@app.route('/')
-def main():
-    return render_template('main.html')
 
 
 @app.route('/daily-bible-verse')
@@ -37,7 +39,7 @@ def daily_bible_verse():
         return render_template('daily_bible_verse.html', verse=verse_text, reference=verse_reference)
     
     return response
-    
+
 if __name__ == '__main__':
 
     STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")

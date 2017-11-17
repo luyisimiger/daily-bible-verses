@@ -1,0 +1,48 @@
+{% extends "bibleapp/base.html" %}
+
+{% macro testament_macro(text) -%}
+	
+	{% if text == "O" %}
+		{{ "Antiguo Testamento" }}
+	{% else %}
+		{{ "Nuevo Testamento" }}
+	{% endif %}
+
+{%- endmacro %}
+
+{% block header_title %} The Bible - {{ book.name }} {% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+	<div class="container is-fluid">
+
+		<div class="columns">
+			<div class="column is-one-fifth">
+				
+				{% include "bibleapp/components/books_menu.html" %}
+			
+			</div>
+			<div class="column">
+
+				<h1 class="title is-size-1">{{ book.name }}</h1>
+				<h2 class="subtitle has-text-grey is-size-3">{{ testament_macro(book.testament) }}</h2>
+
+				<hr>
+
+				<div class="box">
+				
+				{% with chapter_list=book.chapters_list, chapter=None %}
+				{% include "bibleapp/components/chapters.html" ignore missing %}
+				{% endwith %}
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</section>
+
+{% endblock %}

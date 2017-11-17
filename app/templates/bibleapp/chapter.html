@@ -1,0 +1,39 @@
+{% extends "bibleapp/base.html" %}
+
+{% block content %}
+
+<section class="section">
+
+	<div class="container is-fluid">
+
+		<div class="columns">
+			<div class="column is-one-fifth">
+				{% with book=chapter.book %}
+				{% include "bibleapp/components/books_menu.html" %}
+				{% endwith %}
+			</div>
+			<div class="column">
+
+				<h1 class="title is-1">{{ chapter.book.name }}</h1>
+				<h2 class="subtitle is-3">Chapter {{ chapter.chapter }}</h2>
+
+				<ul class="has-text-justified">
+					{% for v in chapter.verses %}
+					<li class="is-size-5"><a href="{{ url_for('verse_view', id=v.id) }}" class="">{{ v.verse }}.</a> {{ v.text }} </li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<div class="column is-one-fifth">
+				
+				{% with chapter_list=chapter.book.chapters_list %}
+				{% include "bibleapp/components/chapters.html" %}
+				{% endwith %}
+
+			</div>
+		</div>
+	</div>
+
+</section>
+
+{% endblock %}
