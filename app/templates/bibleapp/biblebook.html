@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 
 {% macro testament_macro(text) -%}
-	
+
 	{% if text == "O" %}
 		{{ "Antiguo Testamento" }}
 	{% else %}
@@ -14,17 +14,17 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='lib/chosen/bootstrap-chosen.css') }}">
 {% endblock %}
 
-{% block header_title %} The Bible {% endblock %}
+{% block header_title %} {{ _('The Bible') }} {% endblock %}
 
 {% block content %}
 <div class="row">
 	<div class="col-md-4">
-		
-		<select class="chosen-select" data-placeholder="Seleccione un libro">
-			
+
+		<select class="chosen-select" data-placeholder="{{ _('Choose a book') }}">
+
 			<option value=""></option>
 
-			{% set testament = None %}	
+			{% set testament = None %}
 
 			{% for book in biblebooks %}
 
@@ -35,17 +35,17 @@
 					{% endif %}
 
 					{% set testament = book.testament %}
-					
+
 					<optgroup label="{{ testament_macro(testament) }}">
-					
+
 				{% endif %}
 
 				<option value="{{ book.id }}">{{ book.name }}</option>
-				
+
 			{% endfor %}
-			
+
 		</select>
-		
+
 		<br><br>
 
 		<div id="chapter_list" class="center-block">
@@ -106,12 +106,12 @@
 {% endblock %}
 
 {% block js_body %}
-	
+
 	<script src="{{ url_for('static', filename='js/lib/jquery.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='lib/chosen/chosen.jquery.min.js') }}"></script>
-	
+
 	<script>
-		
+
 		var $select = $(".chosen-select");
 
 		$select.chosen()
@@ -119,13 +119,13 @@
 			// change selected book
 			.change( function () {
 
-				
+
 
 			});
 
 		function get_verses(book, chapter) {
 
-			
+
 
 		}
 

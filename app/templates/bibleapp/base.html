@@ -10,29 +10,16 @@
 	<div class="hero-body">
 		<div class="container">
 			<p class="title">
-				The Bible
+				{{ _('The Bible') }}
 			</p>
 			<p class="subtitle">
-				It is the God's word!
+				{{ _("It is the God's word!") }}
 			</p>
 		</div>
 	</div>
 </section>
 
 {% block content %}{% endblock %}
-
-{% block footer %}
-<footer class="footer">
-	<div class="container">
-		<div class="content has-text-centered">
-			<p>
-				<strong>bibleapp</strong> by <a href="https://twitter.com/luyisimiger">Luis Mejia</a>. The source code is licensed
-				<a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-			</p>
-		</div>
-	</div>
-</footer>
-{% endblock %}
 
 {% block js_body %}{% endblock %}
 

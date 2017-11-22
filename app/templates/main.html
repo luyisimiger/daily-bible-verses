@@ -8,18 +8,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="luyisimiger">
-	
-	<title>{% block title %} Daily Bible Verse {% endblock %}</title>
+
+	<title>{% block title %} {{ _('Daily Bible Verse') }} {% endblock %}</title>
 
 	{% block base_css %}
 	<!-- Bootstrap 3.3.6 -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-	
+
 	{% block css %}{% endblock %}
 
 	{% endblock %}
-		
+
 	{% block js_head %}{% endblock %}
 
 </head>
@@ -77,16 +77,21 @@
 
 {% endblock %}
 
+{% block js_body %}{% endblock %}
+
+{% endblock %}
+
 {% block footer %}
 <footer class="footer">
 	<div class="container">
-	<p>&copy; 2017 Company, Inc.</p>
-	</div> <!-- /container -->
+		<div class="content has-text-centered">
+			<p>
+				<strong>bibleapp</strong> by <a href="https://twitter.com/luyisimiger">Luis Mejia</a>. {{ _('The source code is licensed') }}
+				<a href="http://opensource.org/licenses/mit-license.php">MIT</a>. {{ _('The website content is licensed') }} <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+			</p>
+		</div>
+	</div>
 </footer>
-{% endblock %}
-
-{% block js_body %}{% endblock %}
-	
 {% endblock %}
 
 </body>

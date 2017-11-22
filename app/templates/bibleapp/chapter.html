@@ -15,7 +15,7 @@
 			<div class="column">
 
 				<h1 class="title is-1">{{ chapter.book.name }}</h1>
-				<h2 class="subtitle is-3">Chapter {{ chapter.chapter }}</h2>
+				<h2 class="subtitle is-3">{{ _('Chapter') }} {{ chapter.chapter }}</h2>
 
 				<ul class="has-text-justified">
 					{% for v in chapter.verses %}
@@ -25,7 +25,7 @@
 			</div>
 
 			<div class="column is-one-fifth">
-				
+
 				{% with chapter_list=chapter.book.chapters_list %}
 				{% include "bibleapp/components/chapters.html" %}
 				{% endwith %}
