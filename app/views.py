@@ -40,3 +40,7 @@ def bible_view():
 @app.route('/')
 def index_view():
     return bible_view()
+
+@app.route('/template/<path:file>')
+def template_view(file):
+    return render_template(file)
