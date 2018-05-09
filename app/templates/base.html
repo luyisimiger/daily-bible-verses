@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+
+{% block base_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='lib/bulma/bulma.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<section class="hero is-primary">
+	<div class="hero-body">
+		<div class="container">
+			<p class="title">
+				{{ _('The Bible') }}
+			</p>
+			<p class="subtitle">
+				{{ _("It is the God's word!") }}
+			</p>
+		</div>
+	</div>
+</section>
+
+{% block content %}{% endblock %}
+
+{% block js_body %}{% endblock %}
+
+{% endblock %}

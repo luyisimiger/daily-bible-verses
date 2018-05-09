@@ -10,4 +10,5 @@ db = SQLAlchemy(app)
 babel = Babel(app)
 migrate = Migrate(app, db)
 
-from app import views, models
+from app import models
+#import app.views
