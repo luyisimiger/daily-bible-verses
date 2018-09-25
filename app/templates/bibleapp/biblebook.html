@@ -1,0 +1,134 @@
+{% extends "main.html" %}
+
+{% macro testament_macro(text) -%}
+
+	{% if text == "O" %}
+		{{ "Antiguo Testamento" }}
+	{% else %}
+		{{ "Nuevo Testamento" }}
+	{% endif %}
+
+{%- endmacro %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='lib/chosen/bootstrap-chosen.css') }}">
+{% endblock %}
+
+{% block header_title %} {{ _('The Bible') }} {% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-4">
+
+		<select class="chosen-select" data-placeholder="{{ _('Choose a book') }}">
+
+			<option value=""></option>
+
+			{% set testament = None %}
+
+			{% for book in biblebooks %}
+
+				{% if not book.testament is equalto testament %}
+
+					{% if not testament is none %}
+						</optgroup>
+					{% endif %}
+
+					{% set testament = book.testament %}
+
+					<optgroup label="{{ testament_macro(testament) }}">
+
+				{% endif %}
+
+				<option value="{{ book.id }}">{{ book.name }}</option>
+
+			{% endfor %}
+
+		</select>
+
+		<br><br>
+
+		<div id="chapter_list" class="center-block">
+
+			<ul class="nav nav-pills">
+				<li role="presentation" class="active"><a href="#">1</a></li>
+				<li role="presentation"><a href="#">2</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+				<li role="presentation"><a href="#">4</a></li>
+			</ul>
+
+		</div>
+
+	</div>
+	<div class="col-md-8">
+
+		<div class="list-group" id="verses">
+
+			{% if verses is defined %}
+
+				{% for v in verses %}
+				<a href="#" class="list-group-item"> {{ v.text }} </a>
+				{% endfor %}
+
+			{% endif %}
+
+		</div>
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+	</div>
+</div>
+{% endblock %}
+
+{% block js_body %}
+
+	<script src="{{ url_for('static', filename='js/lib/jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/chosen/chosen.jquery.min.js') }}"></script>
+
+	<script>
+
+		var $select = $(".chosen-select");
+
+		$select.chosen()
+
+			// change selected book
+			.change( function () {
+
+
+
+			});
+
+		function get_verses(book, chapter) {
+
+
+
+		}
+
+	</script>
+{% endblock %}
+

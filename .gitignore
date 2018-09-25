@@ -89,3 +89,4 @@ ENV/
 
 # custom
 uml/
+.vscode

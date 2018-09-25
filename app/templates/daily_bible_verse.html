@@ -1,0 +1,123 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<blockquote>
+			<p id="verse">{{ verse|e }}</p>
+			<footer>Holy Bilbe in <cite id="cite" title="{{ reference }}">{{ reference }}</cite></footer>
+		</blockquote>
+		<div class="well well-sm clearfix">
+			<span id="updated"></span>
+			<button id="getnow" class="btn btn-default pull-right">Get now!</button>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block js_body %}
+	
+	<script src="{{ url_for('static', filename='js/lib/fetch.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/lib/moment.min.js') }}"></script>
+	
+	<script>
+		
+		var p = document.querySelector("#verse");
+		var cite = document.querySelector("#cite");
+		var span = document.querySelector("#updated");
+		
+		var worker;
+		
+		var timeout = 1 * 1000;
+		var timeout_server = 30 * 60 * 1000;
+		var _moment;
+		var _interval = 0;
+		
+		
+		function update_verse (event) {
+			
+			console.log("update_verse")
+			
+			var json_data = event.data;
+			
+			p.innerHTML = json_data.verse.details.text
+			
+			cite.innerHTML = json_data.verse.details.reference
+			cite.setAttribute("title", json_data.verse.details.reference);
+			
+			update_next_label();
+			
+			notify_verse(json_data);
+						
+		};
+		
+		function update_moment () {
+			
+			span.innerHTML = "Next update: " + _moment.fromNow()
+			
+		};
+
+		function update_next_label() {
+			
+			_moment = moment().add(timeout_server, 'ms');
+			
+			window.clearInterval(_interval);
+			_interval = window.setInterval(update_moment, timeout);
+			
+		};		
+		
+		function notify_verse (json_data) {
+			
+			if (window.Notification) {
+				
+				var body = json_data.verse.details.text + ' - [' + json_data.verse.details.reference + ']'
+				
+				var options = {
+					title: json_data.verse.details.reference,
+					lang: "en",
+					body: body,
+					timestamp: _moment.valueOf()
+				};
+				
+				Notification.requestPermission().then(function (result) {
+					
+					var n = new Notification("A new bible verse for you", options);
+					
+				});
+			
+			}
+			
+		};
+
+		function refresh_verse() {
+			
+			worker.postMessage({cmd: "refresh_verse"});
+			
+		};
+		
+		if (window.Worker) {
+		
+			var url_worker = "{{ url_for('static', filename='js/webworkers/fetch_random_verse_worker.js') }}"
+			
+			var options = {
+				timeout: timeout_server,
+				url_get_verse: "{{ url_for('daily_bible_verse') }}?order=random&format=json"
+			};
+			
+			worker = new Worker(url_worker)
+			
+			worker.onmessage = function (event) {
+				update_verse (event)
+			};
+			
+			worker.postMessage({cmd: "start", options: options});
+		
+		}
+
+		document.querySelector("#getnow").onclick = refresh_verse;
+		update_next_label();
+		
+	</script>
+	
+{% endblock %}
+

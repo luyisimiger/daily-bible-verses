@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="luyisimiger">
+
+	<title>{% block title %} {{ _('Daily Bible Verse') }} {% endblock %}</title>
+
+	{% block base_css %}
+	<!-- Bootstrap 3.3.6 -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+
+	{% block css %}{% endblock %}
+
+	{% endblock %}
+
+	{% block js_head %}{% endblock %}
+
+</head>
+
+<body>
+
+{% block body %}
+
+<header>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+			<a class="navbar-brand" href="#">
+				<img alt="Brand" src="...">
+			</a>
+			</div>
+		</div>
+	</nav>
+</header>
+
+{% block content %}
+<div class="container">
+
+	<div class="jumbotron">
+		<h1>New bible verse every day!</h1>
+		<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+		<p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+	</div>
+
+	<div class="row marketing hidden">
+		<div class="col-lg-6">
+			<h4>Subheading</h4>
+			<p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+			<h4>Subheading</h4>
+			<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+			<h4>Subheading</h4>
+			<p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+		</div>
+
+		<div class="col-lg-6">
+			<h4>Subheading</h4>
+			<p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+			<h4>Subheading</h4>
+			<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+			<h4>Subheading</h4>
+			<p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+		</div>
+	</div>
+
+</div> <!-- /container -->
+
+{% endblock %}
+
+{% block js_body %}{% endblock %}
+
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+	<div class="container">
+		<div class="content has-text-centered">
+			<p>
+				<strong>bibleapp</strong> by <a href="https://twitter.com/luyisimiger">Luis Mejia</a>. {{ _('The source code is licensed') }}
+				<a href="http://opensource.org/licenses/mit-license.php">MIT</a>. {{ _('The website content is licensed') }} <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+			</p>
+		</div>
+	</div>
+</footer>
+{% endblock %}
+
+</body>
+</html>

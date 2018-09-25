@@ -1,0 +1,8 @@
+
+<p class="subtitle">{{ _('Chapters') }}</p>
+
+<div class="buttons">
+	{% for c in chapter_list %}
+	<a class="button {% if chapter.chapter is equalto c.chapter %} is-link {% endif %}" href="{{ url_for('chapter_view', id=c.id) }}">{{ c.chapter }}</a>
+	{% endfor %}
+</div>
